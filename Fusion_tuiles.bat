@@ -100,13 +100,13 @@ gdalbuildvrt -a_srs EPSG:%proj% -input_file_list %outpout%\asc_list.txt  %outpou
 gdal_translate -a_srs EPSG:%proj% -of GTiff %outpout%\tmp.vrt %outpout%\%nom%.tif
 
 :: Lancement du resampling
-:deman_resp
 if "%dem_rsp%" == "o" goto rsp
-if "%dem_rsp%" == "n" goto deman_dcp
+if "%dem_rsp%" == "n" goto ench_deman_dcp
 :rsp
 saga_cmd grid_tools 0 -INPUT=%outpout%\%nom%.tif -TARGET_DEFINITION=0 -TARGET_USER_SIZE=%res% -OUTPUT=%outpout%\%nom%_%res%m.tif -SCALE_UP=2
 
 :: Découpage selon la ligne de découp
+:ench_deman_dcp
 if "%dem_dcp%" == "o" goto dcp
 if "%dem_dcp%" == "n" goto fin
 :dcp
