@@ -55,7 +55,7 @@ goto deman_lamb
 :: Si non lambert demandee du code de projection
 :lamb_pas_bon
 set /p proj=Qu'elle est le code EPSG de la projection ?
-goto suite
+goto deman_zip
 :: Si en lambert 93
 :lamb_bon
 set proj=2154
@@ -102,10 +102,11 @@ gdal_translate -a_srs EPSG:%proj% -of GTiff %outpout%\tmp.vrt %outpout%\%nom%.ti
 :: Lancement du resampling
 :deman_resp
 if "%dem_rsp%" == "o" goto rsp
-if "%dem_rsp%" == "n" goto deman_dcp
+if "%dem_rsp%" == "n" goto check_deman_dcp
 :rsp
 saga_cmd grid_tools 0 -INPUT=%outpout%\%nom%.tif -TARGET_DEFINITION=0 -TARGET_USER_SIZE=%res% -OUTPUT=%outpout%\%nom%_%res%m.tif -SCALE_UP=2
 
+:check_deman_dcp
 :: Découpage selon la ligne de découp
 if "%dem_dcp%" == "o" goto dcp
 if "%dem_dcp%" == "n" goto fin
